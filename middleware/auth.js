@@ -3,7 +3,7 @@
   of a request before the callback function is executed.
 */
 
-const config = require("config");
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
@@ -15,11 +15,11 @@ module.exports = (req, res, next) => {
   }
 
   // Verifying the signature of the token
-  jwt.verify(token, config.get("jwtSecret"), (err, decoded) => {
+  jwt.verify(token, process.env.jwtSecret, (err, decoded) => {
     if (err) {
       return res.status(401).send("Invalid Token. Unauthorized Entry");
     }
-    req.user = decoded;  // Creating a new field "user" in our "request" so that the data can be acessed on any route
-    next();              // Callback function
+    req.user = decoded; // Creating a new field "user" in our "request" so that the data can be acessed on any route
+    next(); // Callback function
   });
 };

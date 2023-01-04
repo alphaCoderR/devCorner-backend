@@ -4,7 +4,7 @@ const middleWare = require("../../middleware/auth");
 const userModel = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const config = require("config");
+require("dotenv").config();
 const { body, validationResult } = require("express-validator");
 
 /*******************************************************
@@ -36,7 +36,6 @@ router.post(
             // Verifying the user
             bcrypt.compare(password, data.password, (err, result) => {
               if (!err && result == true) {
-
                 /****  Implementing Json Web Tokens ****/
                 const payload = {
                   id: data.id,
@@ -44,7 +43,7 @@ router.post(
                 };
                 jwt.sign(
                   payload,
-                  config.get("jwtSecret"),
+                  process.env.jwtSecret,
                   { expiresIn: 360000 },
                   (err, token) => {
                     if (!err) {
@@ -52,7 +51,6 @@ router.post(
                     }
                   }
                 );
-                
               } else {
                 res.status(401).send("Unauthorized. You don't have acess");
               }
