@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("config");
-const dbUrl = config.get("offlineUrl");
+const dbUrl = config.get("mongoUrl");
 
 const connectDb = async () => {
   try {
