@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const config = require("config");
-const dbUrl = config.get("offlineUrl");
+require('dotenv').config()
+const dbUrl = process.env.mongoUrl;
 
 const connectDb = async () => {
   try {
